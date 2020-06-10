@@ -111,13 +111,16 @@
                                                 {foreach from=$recentRecords item=item name=lastViewed }
                                                     {if $smarty.foreach.lastViewed.iteration < 4} {* limit to 3 results *}
                                                         <li class="recentlinks" role="presentation">
-                                                            <a title="{$item.module_name}"
+                                                            <a title="{sugar_translate module=$item.module_name label=LBL_MODULE_NAME}"
                                                                accessKey="{$smarty.foreach.lastViewed.iteration}"
                                                                href="{sugar_link module=$item.module_name action='DetailView' record=$item.item_id link_only=1}" class="recent-links-detail">
                                                                 <span class="suitepicon suitepicon-module-{$item.module_name|lower|replace:'_':'-'}"></span>
                                                                 <span aria-hidden="true">{$item.item_summary_short}</span>
                                                             </a>
-                                                            <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class=" glyphicon glyphicon-pencil"></a>
+                                                            {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                                            {if $access}
+                                                                 <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class=" glyphicon glyphicon-pencil"></a>
+                                                            {/if}
                                                         </li>
                                                     {/if}
                                                 {/foreach}
@@ -140,7 +143,10 @@
                                                                 <span class="suitepicon suitepicon-module-{$item.module_name|lower|replace:'_':'-'}"></span>
                                                                 <span aria-hidden="true">{$item.item_summary_short}</span>
                                                             </a>
-                                                            <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                                                            {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                                            {if $access}
+                                                                <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                                                            {/if}
                                                         </li>
                                                     {/if}
                                                 {/foreach}
@@ -218,13 +224,16 @@
                                                         {foreach from=$recentRecords item=item name=lastViewed}
                                                             {if $item.module_name == $name and $submoduleRecentRecords < 3}
                                                                 <li class="recentlinks" role="presentation">
-                                                                    <a title="{$item.module_name}"
+                                                                    <a title="{sugar_translate module=$item.module_name label=LBL_MODULE_NAME}"
                                                                        accessKey="{$smarty.foreach.lastViewed.iteration}"
                                                                        href="{sugar_link module=$item.module_name action='DetailView' record=$item.item_id link_only=1}" class="recent-links-detail">
 
                                                                         <span aria-hidden="true">{$item.item_summary_short}</span>
                                                                     </a>
-                                                                    <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class=" glyphicon glyphicon-pencil"></a>
+                                                                    {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                                                    {if $access}
+                                                                        <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class=" glyphicon glyphicon-pencil"></a>
+                                                                    {/if}
                                                                 </li>
                                                                 {counter name="submoduleRecentRecords" print=false}
                                                             {/if}
@@ -256,7 +265,10 @@
                                                                     <span class="suitepicon suitepicon-module-{$item.module_name|lower|replace:'_':'-'}"></span>
                                                                     <span aria-hidden="true">{$item.item_summary_short}</span>
                                                                 </a>
-                                                                <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class=" glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                                                                {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                                                {if $access}
+                                                                    <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class=" glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                                                                {/if}
                                                             </li>
                                                             {counter name="submoduleFavoriteRecords" print=false}
                                                         {/if}
@@ -275,8 +287,7 @@
                         {capture name=extraparams assign=extraparams}parentTab={$group}{/capture}
                         <li class="topnav {if $smarty.foreach.groupList.last}all{/if}">
                             <span class="notCurrentTabLeft">&nbsp;</span><span class="notCurrentTab">
-                            <a href="#" id="grouptab_{$smarty.foreach.groupList.index}" class="dropdown-toggle grouptab"
-                               data-toggle="dropdown">{$group}</a>
+                            <a href="#" id="grouptab_{$smarty.foreach.groupList.index}" class="dropdown-toggle grouptab">{$group}</a>
                             <span class="notCurrentTabRight">&nbsp;</span>
                             <ul class="dropdown-menu" role="menu" {if $smarty.foreach.groupList.last} class="All"{/if}>
                                 {foreach from=$modules.modules item=module key=modulekey}
@@ -365,12 +376,15 @@
                                             {foreach from=$recentRecords item=item name=lastViewed}
                                                 {if $item.module_name == $submodule and $submoduleRecentRecords < 3}
                                                     <li class="recentlinks" role="presentation">
-                                                        <a title="{$item.module_name}"
+                                                        <a title="{sugar_translate module=$item.module_name label=LBL_MODULE_NAME}"
                                                            accessKey="{$smarty.foreach.lastViewed.iteration}"
                                                            href="{sugar_link module=$item.module_name action='DetailView' record=$item.item_id link_only=1}" class="recent-links-detail">
                                                             <span aria-hidden="true">{$item.item_summary_short}</span>
                                                         </a>
-                                                        <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class=" glyphicon glyphicon-pencil"></a>
+                                                        {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                                        {if $access}
+                                                            <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class=" glyphicon glyphicon-pencil"></a>
+                                                        {/if}
                                                     </li>
                                                     {counter name="submoduleRecentRecords" print=false}
                                                 {/if}
@@ -397,7 +411,10 @@
                                                        href="{sugar_link module=$item.module_name action='DetailView' record=$item.id link_only=1}" class="favorite-links-detail">
                                                         <span aria-hidden="true">{$item.item_summary_short}</span>
                                                     </a>
-                                                    <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class=" glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                                                    {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                                    {if $access}
+                                                        <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class=" glyphicon glyphicon-pencil" aria-hidden="true"></a>
+                                                    {/if}
                                                 </li>
                                                 {counter name="submoduleFavoriteRecords" print=false}
                                             {/if}
@@ -415,11 +432,11 @@
                             <span class="notCurrentTabRight">&nbsp;</span>
                             <ul id="overflow-menu" class="dropdown-menu" role="menu">
                                 <!--nav items without actions -->
-                                    {foreach from=$modules.extra item=submodulename key=submodule}
-                                        <li class="topnav without-actions">
-                                            <span class=" notCurrentTab"> <a href="{sugar_link module=$submodule link_only=1 extraparams=$extraparams}">{$submodulename}</a> </span>
-                                        </li>
-                                    {/foreach}
+                                {foreach from=$modules.extra item=submodulename key=submodule}
+                                    <li class="topnav without-actions">
+                                        <span class=" notCurrentTab"> <a href="{sugar_link module=$submodule link_only=1 extraparams=$extraparams}">{$submodulename}</a> </span>
+                                    </li>
+                                {/foreach}
                             </ul>
                         </li>
                     {/if}
@@ -729,7 +746,7 @@
 
         <a id="buttontoggle" class="buttontoggle"><span></span></a>
 
-             <div {if $smarty.cookies.sidebartoggle == 'collapsed'}style="display:none"{/if}
+        <div {if $smarty.cookies.sidebartoggle|default:'' == 'collapsed'}style="display:none"{/if}
              class="sidebar">
 
                 <div id="actionMenuSidebar" class="actionMenuSidebar">
@@ -769,14 +786,17 @@
                                 {if $smarty.foreach.lastViewed.index < 5}
                                     <div class="recently_viewed_link_container_sidebar">
                                         <li class="recentlinks" role="presentation">
-                                            <a title="{$item.module_name}"
+                                            <a title="{sugar_translate module=$item.module_name label=LBL_MODULE_NAME}"
                                                accessKey="{$smarty.foreach.lastViewed.iteration}"
                                                href="{sugar_link module=$item.module_name action='DetailView' record=$item.item_id link_only=1}"
                                                class="recent-links-detail">
                                                 <span class="suitepicon suitepicon-module-{$item.module_name|lower|replace:'_':'-'}"></span>
                                                 <span>{$item.item_summary_short}</span>
                                             </a>
-                                            <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                            {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                            {if $access}
+                                                <a href="{sugar_link module=$item.module_name action='EditView' record=$item.item_id link_only=1}" class="recent-links-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                            {/if}
                                         </li>
                                     </div>
                                 {/if}
@@ -797,7 +817,10 @@
                                         <span class="suitepicon suitepicon-module-{$item.module_name|lower|replace:'_':'-'}"></span>
                                         <span aria-hidden="true">{$item.item_summary_short}</span>
                                     </a>
-                                    <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                    {capture assign='access'}{suite_check_access module=$item.module_name action='edit' record=$item.item_id }{/capture}
+                                    {if $access}
+                                        <a href="{sugar_link module=$item.module_name action='EditView' record=$item.id link_only=1}" class="favorite-links-edit"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+                                    {/if}
                                 </li>
                             </div>
                             {/if}

@@ -294,7 +294,7 @@ class ListViewDataEmails extends ListViewData
                     continue;
                 }
 
-                // strip out the suffix to the the field names
+                // strip out the suffix to the field names
                 if ((stristr($filteredField, 'advanced') !== false) || (stristr($filteredField, 'basic') !== false)) {
                     $f = str_ireplace('_advanced', '', $filteredField);
                     $f = str_ireplace('_basic', '', $f);
@@ -600,7 +600,7 @@ class ListViewDataEmails extends ListViewData
                     $is_imported = [];
                 }
 
-                if ($is_imported instanceof Countable) {
+                if (is_array($is_imported) || $is_imported instanceof Countable) {
                     $count = count($is_imported);
                 } else {
                     LoggerManager::getLogger()->warn('ListViewDataEmails::getEmailRecordFieldValue: email list should be a Countable');
